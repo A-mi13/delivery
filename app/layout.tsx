@@ -101,7 +101,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
             )}
             <main>{children}</main>
             {isHomePage && <Footer />}
-            {isHomePage && <Categories productsData={productsData} />}
+            {isHomePage && <Categories/>}
           </FavoritesProvider>
         </CartProvider>
       </body>
