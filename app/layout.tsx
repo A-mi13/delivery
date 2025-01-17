@@ -10,7 +10,7 @@ import { Categories } from '../components/shared/categories';
 import { CartProvider } from '@/components/shared/CartContext';
 import { usePathname } from 'next/navigation';
 import { FavoritesProvider } from '@/components/shared/FavoritesContext'; // Импортируем FavoritesProvider
-
+import { Inter } from 'next/font/google';
 const inter = Inter({
   subsets: ['cyrillic'],
   variable: '--font-nunito',
