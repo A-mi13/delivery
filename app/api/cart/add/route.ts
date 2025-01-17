@@ -8,7 +8,7 @@ export async function POST(request: Request) {
     console.log("Received data:", { productId, quantity, userId });
 
     // Проверяем, существует ли корзина для пользователя
-    const cart = await prisma.cart.findUnique({
+    let cart = await prisma.cart.findUnique({
       where: { userId },
     });
 
