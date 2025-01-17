@@ -120,14 +120,16 @@ const DeliveryAddressesPage: React.FC = () => {
   const handleAddressSelect = async (address: string) => {
     setNewAddress(address);
     setAddressSuggestions([]);
-
+  
     if (ymapsLoaded && window.ymaps) {
       try {
         const geocoder = await window.ymaps.geocode(address);
         const firstGeoObject = geocoder.geoObjects.get(0);
         if (firstGeoObject) {
-          const coords = firstGeoObject.geometry.getCoordinates();
-          setMapCenter(coords); // Обновляем центр карты
+          const coords = firstGeoObject.geometry?.getCoordinates(); // Исправлено
+          if (coords) {
+            setMapCenter(coords); // Обновляем центр карты
+          }
         }
       } catch (error) {
         console.error("Ошибка при геокодировании выбранного адреса:", error);
