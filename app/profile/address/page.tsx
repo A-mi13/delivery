@@ -75,7 +75,7 @@ const DeliveryAddressesPage: React.FC = () => {
     }
   };
 
-  const handleMapClick = async (e: any, isEditing: boolean) => {
+  const handleMapClick = async (e: ymaps.MapEvent, isEditing: boolean) => {
     const coords: [number, number] = e.get("coords"); // Получаем координаты клика
     if (!coords) return;
 
@@ -178,7 +178,7 @@ const DeliveryAddressesPage: React.FC = () => {
                           zoom: 12,
                         }}
                         className="w-full h-full rounded-md"
-                        onClick={(e) => handleMapClick(e, true)}
+                        onClick={(e: ymaps.MapEvent) => handleMapClick(e, true)} // Исправлено
                       >
                         <Placemark geometry={mapCenter} />
                       </Map>
@@ -246,7 +246,7 @@ const DeliveryAddressesPage: React.FC = () => {
                   zoom: 12,
                 }}
                 className="w-full h-full rounded-md"
-                onClick={(e) => handleMapClick(e, false)}
+                onClick={(e: ymaps.MapEvent) => handleMapClick(e, false)} // Исправлено
               >
                 <Placemark geometry={mapCenter} />
               </Map>
