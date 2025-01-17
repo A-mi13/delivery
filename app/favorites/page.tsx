@@ -2,7 +2,6 @@
 
 import { useFavorites } from "@/components/shared/FavoritesContext";
 import { useCart } from "@/components/shared/CartContext"; // Импортируем контекст корзины
-import { useRouter } from "next/navigation";
 import { ArrowLeft } from "lucide-react";
 import { useEffect, useState } from "react";
 
@@ -17,7 +16,6 @@ const categoryColors: { [key: number]: string } = {
 const FavoritesPage = () => {
   const { favorites } = useFavorites();
   const { cart, addToCart, increaseCount, decreaseCount } = useCart(); // Используем контекст корзины
-  const router = useRouter();
   const [allProducts, setAllProducts] = useState<any[]>([]);
   const [isLoading, setIsLoading] = useState(true);
 

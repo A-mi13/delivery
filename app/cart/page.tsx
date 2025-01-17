@@ -1,6 +1,5 @@
 "use client";
 import React, { useEffect, useState } from "react";
-import { useRouter } from "next/navigation";
 import { useCart } from "@/components/shared/CartContext";
 
 const categoryColors: { [key: number]: string } = {
@@ -12,7 +11,6 @@ const categoryColors: { [key: number]: string } = {
 };
 
 const CartPage = () => {
-  const router = useRouter();
   const { cart, isLoading, increaseCount, decreaseCount } = useCart();
   const [promoCode, setPromoCode] = useState("");
   const [deliveryPrice] = useState(50);
