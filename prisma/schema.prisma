@@ -180,6 +180,8 @@ model Favorite {
   @@unique([userId, productId])
 }
 
+
+
 enum OrderStatus {
   PENDING
   SUCCEEDED
