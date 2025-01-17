@@ -126,9 +126,11 @@ const DeliveryAddressesPage: React.FC = () => {
         const geocoder = await window.ymaps.geocode(address);
         const firstGeoObject = geocoder.geoObjects.get(0);
         if (firstGeoObject) {
-          const coords = firstGeoObject.geometry?.getCoordinates(); // Исправлено
-          if (coords) {
-            setMapCenter(coords); // Обновляем центр карты
+          if (firstGeoObject.geometry && typeof firstGeoObject.geometry.getCoordinates === "function") {
+            const coords = firstGeoObject.geometry.getCoordinates();
+            if (coords) {
+              setMapCenter(coords); // Обновляем центр карты
+            }
           }
         }
       } catch (error) {
