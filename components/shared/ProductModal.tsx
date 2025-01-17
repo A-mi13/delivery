@@ -127,12 +127,12 @@ const ProductModal: React.FC<ProductModalProps> = ({
   };
 
   const renderCartControls = (
-    cart: Record<number, CartItem>,
+    cart: { [key: number]: number }, // Изменён тип
     id: number,
     handleIncrease: (id: number) => void,
     handleDecrease: (id: number) => void
   ) => {
-    const count = cart[id]?.count || 0;
+    const count = cart[id] || 0; // Используем `cart[id]` вместо `cart[id]?.count`
     return count > 0 ? (
       <div
         className={`flex items-center text-white p-1 rounded-full w-full justify-center transition-colors duration-500 ease-in-out ${
