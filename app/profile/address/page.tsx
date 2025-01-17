@@ -29,6 +29,11 @@ const DeliveryAddressesPage: React.FC = () => {
       console.error("Ошибка при загрузке Яндекс.Карт:", e);
     };
     document.body.appendChild(script);
+
+    // Очистка при размонтировании компонента
+    return () => {
+      document.body.removeChild(script);
+    };
   }, []);
 
   const fetchAddressFromCoords = async (coords: [number, number]): Promise<string> => {
@@ -51,7 +56,6 @@ const DeliveryAddressesPage: React.FC = () => {
       return "Не удалось определить адрес";
     }
   };
-
 
   const addAddress = () => {
     if (newAddress.trim()) {
@@ -107,7 +111,10 @@ const DeliveryAddressesPage: React.FC = () => {
       const suggestions: string[] = [];
 
       geocoder.geoObjects.each((geoObj: any) => {
-        suggestions.push(geoObj.properties.get("text"));
+        const addressText = geoObj.properties.get("text", {});
+        if (typeof addressText === "string") {
+          suggestions.push(addressText);
+        }
       });
 
       setAddressSuggestions(suggestions);
@@ -120,14 +127,15 @@ const DeliveryAddressesPage: React.FC = () => {
   const handleAddressSelect = async (address: string) => {
     setNewAddress(address);
     setAddressSuggestions([]);
-  
+
     if (ymapsLoaded && window.ymaps) {
       try {
         const geocoder = await window.ymaps.geocode(address);
         const firstGeoObject = geocoder.geoObjects.get(0);
         if (firstGeoObject) {
-          if (firstGeoObject.geometry && typeof firstGeoObject.geometry.getCoordinates === "function") {
-            const coords = firstGeoObject.geometry.getCoordinates();
+          const geometry = firstGeoObject.geometry as any; // Приведение типов
+          if (geometry && typeof geometry.getCoordinates === "function") {
+            const coords = geometry.getCoordinates();
             if (coords) {
               setMapCenter(coords); // Обновляем центр карты
             }
@@ -142,11 +150,11 @@ const DeliveryAddressesPage: React.FC = () => {
   return (
     <div className="max-w-[430px] mx-auto px-4 py-6">
       <button
-            className="text-[#FF0000] mr-4"
-            onClick={() => window.location.href = "/profile"}
-          >
-            ← Личный кабинет
-          </button>
+        className="text-[#FF0000] mr-4"
+        onClick={() => (window.location.href = "/profile")}
+      >
+        ← Личный кабинет
+      </button>
       <h1 className="text-xl font-bold mb-6">Адрес доставки</h1>
       {addresses.length === 0 ? (
         <p className="text-center text-gray-500">Пусто</p>
