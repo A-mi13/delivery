@@ -1,34 +1,34 @@
-import { prisma } from "@/prisma/prisma-client";
 import { NextResponse } from "next/server";
+import { prisma } from "@/prisma/prisma-client";
 
-export async function GET() {
-  const ingredients = await prisma.ingredient.findMany()
-  
-  return NextResponse.json(ingredients)
-}
-
-export async function POST(req: Request) {
-  const { cartItemId, ingredientId, quantity } = await req.json();
+export async function POST(request: Request) {
+  const { cartItemId, ingredientId, quantity } = await request.json();
 
   try {
-    const updatedIngredient = await prisma.cartItemIngredient.upsert({
-      where: {
-        cartItemId_ingredientId: {
-          cartItemId,
-          ingredientId,
-        },
-      },
-      update: { quantity },
-      create: {
-        cartItemId,
-        ingredientId,
-        quantity,
-      },
-    });
+    // Удалено использование cartItemIngredient
+    // const updatedIngredient = await prisma.cartItemIngredient.upsert({
+    //   where: {
+    //     cartItemId_ingredientId: {
+    //       cartItemId,
+    //       ingredientId,
+    //     },
+    //   },
+    //   update: {
+    //     quantity,
+    //   },
+    //   create: {
+    //     cartItemId,
+    //     ingredientId,
+    //     quantity,
+    //   },
+    // });
 
-    return NextResponse.json(updatedIngredient);
+    return NextResponse.json({ success: true, message: "Ingredient logic removed" });
   } catch (error) {
-    console.error("Failed to update ingredient:", error);
-    return NextResponse.json({ error: "Failed to update ingredient quantity" }, { status: 500 });
+    console.error("Failed to process request:", error);
+    return NextResponse.json(
+      { error: "Failed to process request" },
+      { status: 500 }
+    );
   }
 }
