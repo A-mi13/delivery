@@ -42,7 +42,8 @@ const DeliveryAddressesPage: React.FC = () => {
       const res = await myGeocoder;
       const firstGeoObject = res.geoObjects.get(0);
       if (firstGeoObject) {
-        return firstGeoObject.properties.get("text") || "Не удалось определить адрес";
+        const addressText = firstGeoObject.properties.get("text");
+        return typeof addressText === "string" ? addressText : "Не удалось определить адрес";
       }
       return "Не удалось определить адрес";
     } catch (error) {
@@ -50,6 +51,7 @@ const DeliveryAddressesPage: React.FC = () => {
       return "Не удалось определить адрес";
     }
   };
+
 
   const addAddress = () => {
     if (newAddress.trim()) {
