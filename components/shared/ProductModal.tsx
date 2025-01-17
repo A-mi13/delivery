@@ -4,6 +4,14 @@ import { HeartIcon } from "lucide-react"; // Импорт иконки серд�
 import { useFavorites } from "./FavoritesContext"; // Импортируем контекст избранных товаров
 import Notification from "./Notification";
 
+// Определяем тип CartItem, если он ещё не определён
+interface CartItem {
+  id: number;
+  count: number; // Используем `count` вместо `quantity`, так как это используется в вашем коде
+  price: number;
+  // Добавьте другие свойства, если они есть
+}
+
 interface ProductModalProps {
   product: Product;
   onClose: () => void;
